@@ -39,17 +39,20 @@
 
 
 							{% if single_product.stock <= 0 %}
-							<h5 class="text-danger">No hay productos</h5>
-							{% elif single_product.stock <= 3 %}
-							<hr>
-							<h5 class="text-danger">Pocas unidades Stock: {{single_product.stock}}</h5>
-							<hr>
-							<button type="submit" class="btn  btn-primary"> <span class="text">Agregar al carrito</span> <i class="fa fa-shopping-cart"></i> </button>
+								<h5 class="text-danger">No hay productos</h5>
 							{% else %}
-							<hr>
-							<h5 class="text">Stock: {{single_product.stock}}</h5>
-							<hr>
-							<button type="submit" class="btn  btn-primary"> <span class="text">Agregar al carrito</span> <i class="fa fa-shopping-cart"></i> </button>
+								{% if in_cart %}
+								<hr>
+								<h5 class="text">Stock: {{single_product.stock}}</h5>
+								<hr>
+								<a href="#" class="btn btn-success"><span class="text">Agregado al carrito</span><i class="fas fa-check"></i></a>
+								<a href="{% url 'cart'  %}" class="btn btn-outline-primary"><span class="text">Ver carrito</span><i class="fas fa-eye"></i></a>
+								{% else %}
+								<hr>
+								<h5 class="text">Stock: {{single_product.stock}}</h5>
+								<hr>
+								<a href="{% url 'add_cart' single_product.id %}" class="btn btn-primary"><span class="text">Agregar al carrito</span><i class="fas fa-shopping-cart"></i></a>
+								{% endif %}
 							{% endif %}
 							
 							

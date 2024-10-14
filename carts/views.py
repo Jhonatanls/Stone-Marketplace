@@ -15,60 +15,74 @@ def _cart_id(request):
 
 def add_cart(request, product_id):
     current_user = request.user
-    product = Product.objects.get(id=product_id) #get the product
-    # If the user is authenticated
+    product = Product.objects.get(id=product_id)  # Obtener el producto
+
+    # Si el usuario está autenticado
     if current_user.is_authenticated:
-        is_cart_item_exists = CartItem.objects.filter(product=product, user=current_user).exists()
-        if is_cart_item_exists:
-            cart_item = CartItem.objects.filter(product=product, user=current_user)
-        else:
+        try:
+            # Intentar obtener el item del carrito para ese producto y usuario
+            cart_item = CartItem.objects.get(product=product, user=current_user)
+            cart_item.quantity += 1  # Incrementar la cantidad
+            cart_item.save()
+        except CartItem.DoesNotExist:
+            # Si no existe, crear un nuevo item en el carrito
             cart_item = CartItem.objects.create(
-                product = product,
-                quantity = 1,
-                user = current_user,
+                product=product,
+                quantity=1,
+                user=current_user,
             )
             cart_item.save()
         return redirect('cart')
-    # If the user is not authenticated
-    else:
 
+    # Si el usuario no está autenticado
+    else:
         try:
-            cart = Cart.objects.get(cart_id=_cart_id(request)) # get the cart using the cart_id present in the session
+            cart = Cart.objects.get(cart_id=_cart_id(request))  # Obtener el carrito usando el cart_id de la sesión
         except Cart.DoesNotExist:
             cart = Cart.objects.create(
-                cart_id = _cart_id(request)
+                cart_id=_cart_id(request)
             )
         cart.save()
 
-        is_cart_item_exists = CartItem.objects.filter(product=product, cart=cart).exists()
-        if is_cart_item_exists:
-            cart_item = CartItem.objects.filter(product=product, cart=cart)
-        else:
+        try:
+            # Intentar obtener el item del carrito para ese producto y carrito (anónimo)
+            cart_item = CartItem.objects.get(product=product, cart=cart)
+            cart_item.quantity += 1  # Incrementar la cantidad
+            cart_item.save()
+        except CartItem.DoesNotExist:
+            # Si no existe, crear un nuevo item en el carrito
             cart_item = CartItem.objects.create(
-                product = product,
-                quantity = 1,
-                cart = cart,
+                product=product,
+                quantity=1,
+                cart=cart,
             )
             cart_item.save()
         return redirect('cart')
 
 
 def remove_cart(request, product_id, cart_item_id):
-
     product = get_object_or_404(Product, id=product_id)
+    
     try:
         if request.user.is_authenticated:
+            # Si el usuario está autenticado, obtenemos el item del carrito basado en el usuario
             cart_item = CartItem.objects.get(product=product, user=request.user, id=cart_item_id)
         else:
+            # Si no está autenticado, usamos el carrito de la sesión
             cart = Cart.objects.get(cart_id=_cart_id(request))
             cart_item = CartItem.objects.get(product=product, cart=cart, id=cart_item_id)
+        
+        # Si la cantidad es mayor a 1, la decrementamos
         if cart_item.quantity > 1:
             cart_item.quantity -= 1
             cart_item.save()
         else:
+            # Si la cantidad es 1 o menor, eliminamos el item del carrito
             cart_item.delete()
-    except:
+    except CartItem.DoesNotExist:
+        # Manejamos el caso donde el cart_item no exista, aunque no haríamos nada en este caso
         pass
+    
     return redirect('cart')
 
 

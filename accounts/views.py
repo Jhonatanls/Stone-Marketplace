@@ -55,7 +55,15 @@ def login(request):
                 pass
             auth.login(request, user)
             #messages.success(request, 'You are now logged in.')
-            return redirect('home')
+            url = request.META.get('HTTP_REFERER')
+            try:
+                query = requests.utils.urlparse(url).query
+                params = dict(x.splt('-') for x in query.split('&'))
+                if "next" in params:
+                    nextPage = params['next']
+                    return redirect(nextPage)
+            except:
+                return redirect('home')
             
         else:
             messages.error(request, 'Invalid login credentials')

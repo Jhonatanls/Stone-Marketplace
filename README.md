@@ -6,7 +6,7 @@ Este es un proyecto de aplicación web Fullstack de Ecommerce, construido utiliz
 
 ## Tablas y relaciones necesarias
 
-Consultar documento [Diseño Base de Datos]
+Consultar documento [Diseño Base de Datos](https://github.com/Jhonatanls/Stone-Marketplace/blob/main/Dise%C3%B1o%20de%20la%20Base%20de%20Datos.pdf)
 
 ## Características Principales
 
@@ -56,6 +56,6 @@ Consultar documento [Diseño Base de Datos]
 ## Próximas Mejoras
 - Funcionalidad de reseñas de productos.
 - Migrar la base de datos a una más potente como PostgreSQL o MySQL.
-- Implementación de procedimientos almacenados, indices y restricciones mencionados en el documento del diseño de la base de datos.
+- Implementación de procedimientos almacenados, indices y restricciones mencionados en el documento del [diseño de la base de datos.](https://github.com/Jhonatanls/Stone-Marketplace/blob/main/Dise%C3%B1o%20de%20la%20Base%20de%20Datos.pdf)
 - Logging y test unitarios y de integración
 - Despliegue de la aplicación y/o Dockerización

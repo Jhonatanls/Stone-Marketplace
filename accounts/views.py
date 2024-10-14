@@ -23,7 +23,7 @@ def register(request):
             user.is_active=True
             user.save()
             messages.success(request, 'Registro exitoso')
-            return redirect('dashboard')
+            return redirect('home')
     else:
         form = RegistrationForm()
     context = {

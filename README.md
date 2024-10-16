@@ -31,6 +31,7 @@ Consultar documento [Diseño Base de Datos](https://github.com/Jhonatanls/Stone-
 ## Instalación y Configuración
 
 1. **Clonar el repositorio:**
+
    ```bash
    git clone https://github.com/Jhonatanls/Stone-Marketplace.git
    cd Stone-Marketplace
@@ -39,11 +40,18 @@ Consultar documento [Diseño Base de Datos](https://github.com/Jhonatanls/Stone-
    pip install -r requirements.txt
    python manage.py runserver
 
+2. **Ejecución de imágen Docker**
+   ```bash
+   docker pull jhonatan25ls/stone-marketplace:latest 
+   docker run -p 8000:8000 jhonatan25ls/stone-marketplace:latest
+   Se deberá abrir localhost:8000 y la aplicación correrá
+
 ## Uso de la Aplicación
 ### Navegación General
 - Los usuarios pueden navegar por las diferentes categorías de productos.
 - Los productos se pueden agregar al carrito, y desde allí pueden proceder a realizar una compra.
 - Se puede filtrar productos por diferentes categorías usando el menú de navegación.
+
 ### Carrito de Compras
 - Una vez que el usuario confirma una compra, se genera una orden que queda registrada en su historial.
 - Los administradores pueden gestionar las órdenes de compra desde el panel de administración de Django.

@@ -1,10 +1,9 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from .models import Product
 from category.models import Category
-from carts.models import CartItem
+from carts.models import CartItem, Cart
 from carts.views import _cart_id
-from django.http import HttpResponse
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.paginator import Paginator
 from django.db.models import Q
 
 def store(request, category_slug=None):
@@ -30,7 +29,6 @@ def store(request, category_slug=None):
         'product_count': product_count,
     }
     return render(request, 'store/store.html', context)
-
 
 def product_detail(request, category_slug, product_slug):
     try:
